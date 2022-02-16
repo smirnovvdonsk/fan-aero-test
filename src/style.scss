@@ -1,0 +1,26 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:r,b,i,bi); 
+@import url(https://fonts.googleapis.com/css?family=PT+Mono); 
+
+@import "./_variables.scss";
+@import "bootstrap/scss/bootstrap";
+
+p {
+  text-indent: 1.5rem;
+  line-height: 1.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.list-animation-move,
+.list-animation-enter-active,
+.list-animation-leave-active {
+  transition: all 0.5s ease;
+}
+.list-animation-enter-from,
+.list-animation-leave-to {
+  opacity: 0;
+  transform: scale(.1);
+}
+.list-animation-leave-active {
+  position: absolute;
+}
