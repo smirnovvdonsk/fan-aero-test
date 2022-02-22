@@ -1,14 +1,25 @@
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:r,b,i,bi); 
-@import url(https://fonts.googleapis.com/css?family=PT+Mono); 
-
 @import "./_variables.scss";
 @import "bootstrap/scss/bootstrap";
 
 p {
   text-indent: 1.5rem;
+  text-align: justify;
+  hyphens: auto;
   line-height: 1.5rem;
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+}
+
+.table-blind {
+  //width: 100%;
+  $margin-y: 0.3rem;
+  margin-top: $margin-y;
+  margin-bottom: $margin-y;
+  td {
+    $padding-x: 0.2rem;
+    padding-left: $padding-x;
+    padding-right: $padding-x;
+  }
 }
 
 .list-animation-move,
