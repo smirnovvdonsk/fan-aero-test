@@ -46,7 +46,7 @@ export const stepRoutes = [
   },
   {
     path: '/select-mode',
-    name: 'Подбор режима испытаний',
+    name: 'Подбор параметров испытаний',
     component: SelectMode,
   },
 ];

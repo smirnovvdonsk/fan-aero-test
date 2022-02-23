@@ -61,7 +61,42 @@
       ЧП не способны выдать напряжение выше сетевого.
     </Warning>
     <hr>
-    <DuctDwg :d="diameter"/>
+    <div v-if="!stepFilledIncorrectly">
+      <h5>Итоги подбора параметров испытаний:</h5>
+      <ol>
+        <li>
+          <div>Схема испытательного оборудования</div>
+          <DuctDwg :d="diameter" class="m-2 p-2 border rounded"/>
+        </li>
+        <li>
+          Давление в испытательном воздуховоде будет примерно
+          <NumberOutput :value="realPressure" tofixed="0"/>Па.
+          Воздуховод выдерживает
+          <NumberOutput :value="getMaxPressure" tofixed="0"/>Па.
+        </li>
+        <li>
+          Измерения будут проводиться при скорости потока
+          от <NumberOutput :value="speedRealRange.min" tofixed="1"/>до
+          <NumberOutput :value="speedRealRange.max" tofixed="1"/>м/с.
+          Прибор позволяет
+          от <NumberOutput :value="getSpeedMin" tofixed="1"/>до
+          <NumberOutput :value="getSpeedMax" tofixed="1"/>м/с.
+        </li>
+        <li>
+          Будет использоваться
+          {{getNeedNEngine ? 'нештатный' : 'штатный'}}
+          двигатель
+        </li>
+      </ol>
+      <div class="d-flex flex-column">
+        <div class="progress w-100">Давление в воздуховоде
+        <div class="progress-bar" role="progressbar"
+              :style="{width: `${realPressure / getMaxPressure * 100}%`}"
+          >Давление в воздуховоде
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,6 +132,7 @@ export default {
       'getSpeedMin', 'getSpeedMax',
       'speedRealRange',
       'warningOutsideSpeedRange',
+      'getNeedNEngine',
       'realN',
       'warningNoNominalPowerAndFreq',
       'warningPowerOverEngine',

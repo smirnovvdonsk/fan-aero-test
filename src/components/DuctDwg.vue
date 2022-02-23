@@ -47,7 +47,7 @@
      transform="translate(45.906328,-58.123051)">
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="62.047241"
        y="98.919487"
        id="text961"><tspan
@@ -71,7 +71,7 @@
        height="100%" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="172.06131"
        y="187.63213"
        id="text961-8"><tspan
@@ -82,7 +82,7 @@
          y="187.63213">{{L2}} min</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="92.68689"
        y="186.04465"
        id="text961-8-2"><tspan
@@ -93,7 +93,7 @@
          y="186.04465">Воздуховод</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="160.51071"
        y="96.610085"
        id="text961-8-2-5"><tspan
@@ -104,7 +104,7 @@
          y="96.610085">Мерное</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="160.45819"
        y="107.98127"
        id="text961-8-2-8"><tspan
@@ -115,7 +115,7 @@
          y="107.98127">сечение</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="36.932854"
        y="65.838318"
        id="text961-8-2-5-3"><tspan
@@ -126,7 +126,7 @@
          y="65.838318">Регулирующая заслонка</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="186.68701"
        y="65.838318"
        id="text961-8-2-5-3-0"><tspan
@@ -158,7 +158,7 @@
        height="100%" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="60.372025"
        y="154.55188"
        id="text961-3"><tspan
@@ -169,7 +169,7 @@
          y="154.55188">Движение воздуха</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="-126.11847"
        y="202.89604"
        id="text961-5"
@@ -225,7 +225,7 @@
        r="1.554427" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="17.830328"
        y="186.04465"
        id="text961-8-2-4"><tspan
@@ -258,7 +258,7 @@
        d="m 233.78166,74.963387 h 25.77476 V 176.60997 h -25.77476 z m -277.091497,4.811119 h 18.66539 V 171.3183 h -18.66539 z m 18.66539,0 H -5.9790573 V 171.3183 H -24.644447 Z m 18.6653883,0 H 215.11628 V 171.3183 H -5.9790587 Z" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-size:10.5833px;text-align:center;text-anchor:middle;"
        x="250.63283"
        y="187.23528"
        id="text961-8-2-3"><tspan
