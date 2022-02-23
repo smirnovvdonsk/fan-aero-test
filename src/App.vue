@@ -7,17 +7,17 @@
       <h3 class="me-auto">{{ currentStepName }}</h3>
       <button type="button" class="btn btn-danger m-1" @click="reset" title="Сбросить">
         <i class="fa-solid fa-trash-can"></i>
-        <span class="d-none d-lg-inline"> Сбросить</span>
+        <span class="d-none d-xl-inline"> Сбросить</span>
       </button>
       <button type="button" class="btn btn-primary m-1" @click="saveFile" title="Сохранить в файл">
         <i class="fa-solid fa-floppy-disk"></i>
-        <span class="d-none d-lg-inline"> Сохранить в файл</span>
+        <span class="d-none d-xl-inline"> Сохранить в файл</span>
       </button>
       <input class="input-file" id="input-file"
                type="file" accept=".json" @change="readSingleFile"/>
       <label for="input-file" class="btn btn-primary ms-1" title="Загрузить из файла">
             <i class="fa-solid fa-upload"></i>
-            <span class="d-none d-lg-inline"> Загрузить из файла</span>
+            <span class="d-none d-xl-inline"> Загрузить из файла</span>
       </label>
     </div>
     <div class="main-card h-100">

@@ -61,6 +61,7 @@
       ЧП не способны выдать напряжение выше сетевого.
     </Warning>
     <hr>
+    <DuctDwg :d="diameter"/>
   </div>
 </template>
 
@@ -73,6 +74,7 @@ import NumberInput from '../components/NumberInput.vue';
 import NumberOutput from '../components/NumberOutput.vue';
 import Check from '../components/Check.vue';
 import Warning from '../components/Warning.vue';
+import DuctDwg from '../components/DuctDwg.vue';
 
 export default {
   components: {
@@ -80,6 +82,7 @@ export default {
     NumberOutput,
     Check,
     Warning,
+    DuctDwg,
   },
   emits: ['stepFilledIncorrectly'],
   watch: {

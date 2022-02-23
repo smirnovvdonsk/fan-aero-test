@@ -1,8 +1,29 @@
-import DEFAULTS from '../../../../defaults';
-
 const NOMINALS = {
   namespaced: true,
-  state: () => ({ ...DEFAULTS.testing.nominals }),
+  state: () => ({
+    name: '',
+    serial: '',
+    place: '',
+
+    Qnom: 0, // м3/ч
+    needPVnom: true,
+    PVnom: 0, // Па
+    needPSnom: false,
+    PSnom: 0, // Па
+
+    doesCoolOrHeat: false, // Изделие меняет температуру перемещаемого воздуха
+    Tnom: 20, // °C
+    Tout: 20, // °C
+    P0nom: 101325, // Па
+
+    Nnom: 0, // кВт
+    Fnom: 0, // об/мин
+
+    squareOut: true, // Выходной патрубок прямоугольный, а не круглый
+    sizeOutD: 0, // Диаметр выходного патрубка, мм
+    sizeOutB: 0, // Ширина выходного патрубка, мм
+    sizeOutH: 0, // Высота выходного патрубка, мм
+  }),
   mutations: {
     setName(state, payload) { state.name = payload; },
     setSerial(state, payload) { state.serial = payload; },

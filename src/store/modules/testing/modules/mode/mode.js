@@ -1,8 +1,23 @@
-import DEFAULTS from '../../../../defaults';
-
 const MODE = {
   namespaced: true,
-  state: () => ({ ...DEFAULTS.testing.mode }),
+  state: () => ({
+    psi: 20, // %. Расхождение графика по расходу (ширина характеристики максимальная)
+    speedRange: { // м/с. Диапазон скоростей измерения
+      min: 5,
+      max: 25,
+    },
+    diameter: 0, // мм. Диаметр воздуховода
+    maxPressure: 3000, // Па
+
+    speedChange: false, // Будем ли мы замедлять/ускорять колесо при испытаниях
+    F: 0, // об/мин. Испытательная частота оборотов
+
+    maxN: 110, // кВт. Максимальная мощность на объекте
+
+    needNEngine: false, // Будем ли мы использовать нештатный двигатель
+    NEngine: 0, // кВт. Мощность испытательного двигателя
+    FnomEngine: 0, // об/мин. Номинальная частота испытательного двигателя
+  }),
   mutations: {
     setPsi(state, payload) { state.psi = payload; },
     setDiameter(state, payload) { state.diameter = payload; },

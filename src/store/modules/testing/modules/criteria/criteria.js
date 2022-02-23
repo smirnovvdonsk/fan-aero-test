@@ -1,8 +1,24 @@
-import DEFAULTS, { CRITERIA_TYPES } from '../../../../defaults';
+export const CRITERIA_TYPES = {
+  SYMMETRIC: '±',
+  POSITIVE: '+',
+  AT_LEAST: 'не менее',
+};
 
 const CRITERIA = {
   namespaced: true,
-  state: () => ({ ...DEFAULTS.testing.criteria }),
+  state: () => ({
+    needQ: true,
+    QType: CRITERIA_TYPES.SYMMETRIC,
+    QPercent: 15, // %
+
+    needPV: true,
+    PVType: CRITERIA_TYPES.SYMMETRIC,
+    PVPercent: 15, // %
+
+    needPS: true,
+    PSType: CRITERIA_TYPES.SYMMETRIC,
+    PSPercent: 15, // %
+  }),
   mutations: {
     setNeedQ(state, payload) { state.needQ = payload; },
     setQType(state, payload) {

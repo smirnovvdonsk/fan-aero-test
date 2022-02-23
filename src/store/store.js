@@ -1,14 +1,13 @@
 import { createStore } from 'vuex';
 import { stepRoutes } from '../router/router';
 import TESTING from './modules/testing/testing';
-import DEFAULTS from './defaults';
 
 const STEP_PATHS = stepRoutes.map((route) => route.path);
 const STEP_NAMES = stepRoutes.map((route) => route.name);
 
 export default createStore({
   state: {
-    currentStepIndex: DEFAULTS.currentStepIndex,
+    currentStepIndex: 0,
   },
   modules: {
     testing: TESTING,
