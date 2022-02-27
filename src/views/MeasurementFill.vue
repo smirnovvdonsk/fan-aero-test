@@ -76,14 +76,20 @@
               <div>
                 Скорость воздуха в мерном сечении
                 v<sub>m</sub>&nbsp;=&nbsp;<NumberOutput
-                      :value="VmArray[pointIndex-1]" tofixed="3"
+                      :value="VmArray[pointIndex-1]" tofixed="1"
                     />м/с.
               </div>
               <div>
                 Производительность в номинальном режиме
                 Q&nbsp;=&nbsp;<NumberOutput
-                      :value="QArray[pointIndex-1]" tofixed="3"
+                      :value="QArray[pointIndex-1]" tofixed="0"
                     />м<sup>3</sup>/ч.
+              </div>
+              <div>
+                Расхождение полученной и номинальной производительности
+                ψ&nbsp;=&nbsp;<NumberOutput
+                      :value="psiArray[pointIndex-1]" tofixed="1"
+                    />%.
               </div>
             </td>
           </tr>
@@ -122,6 +128,7 @@ export default {
       'getDeltaP', 'incorrectDeltaP',
       'PsArray', 'PdArray', 'Pt1Array',
       'densityArray', 'VmArray', 'QArray',
+      'psiArray', 'meetsPsiArray',
     ]),
     ...mapGetters('testing/nominals', [
       'getName', 'getSerial', 'getPlace',

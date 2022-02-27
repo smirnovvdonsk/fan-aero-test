@@ -125,6 +125,16 @@ const TESTING = {
       getters['point2/Q'],
       getters['point3/Q'],
     ],
+    psiArray: (state, getters) => [
+      getters['point1/psi'],
+      getters['point2/psi'],
+      getters['point3/psi'],
+    ],
+    meetsPsiArray: (state, getters) => [
+      getters['point1/meetsPsi'],
+      getters['point2/meetsPsi'],
+      getters['point3/meetsPsi'],
+    ],
   },
   modules: {
     nominals,

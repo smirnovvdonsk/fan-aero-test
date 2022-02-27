@@ -103,6 +103,14 @@ const POINT = { // Один (из трёх) режим измерения (од�
     Q: (state, { diameter, Fcoeff, Vm }) => (
       (Math.PI / 4) * (diameter ** 2 / 1e6) * Fcoeff * Vm * 3600
     ),
+    psiNom: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/mode/getPsi']
+    ),
+    Qnom: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/getQnom']
+    ),
+    psi: (state, { Q, Qnom }) => (Math.abs(Q - Qnom) / Qnom) * 100,
+    meetsPsi: (state, { psi, psiNom }) => psi < psiNom,
   },
   modules: {},
 };
