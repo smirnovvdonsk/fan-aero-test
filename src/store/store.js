@@ -30,6 +30,7 @@ export default createStore({
     setPreviousStep({ commit, getters }) { if (!getters.isTheFirstStep) commit('PREVIOUS_STEP'); },
   },
   getters: {
+    R: () => 286.7,
     isTheFirstStep: (state) => (state.currentStepIndex <= 0),
     isTheLastStep: (state) => (state.currentStepIndex >= (STEP_PATHS.length - 1)),
     currentStepPath: (state) => STEP_PATHS[state.currentStepIndex],

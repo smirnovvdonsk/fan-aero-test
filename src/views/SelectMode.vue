@@ -1,5 +1,8 @@
 <template>
   <div>
+    <DuctDwg v-if="!incorrectDiameter" :d="diameter"
+            class="d-none d-xl-block float-end m-2 p-2 border rounded"
+    />
     <p>
       Подберём измерительный воздуховод и частоту вращения
     </p>
@@ -9,20 +12,6 @@
       <div><NumberInput v-model="diameter" tofixed="0" :invalid="incorrectDiameter"/></div>
       <div>мм</div>
     </div>
-    <Warning v-if="warningOutsideSpeedRange && speedRealRange.min < Infinity">
-      Придётся измерять скорости потока в диапазоне
-      от <NumberOutput :value="speedRealRange.min" tofixed="1"/>м/с
-      до <NumberOutput :value="speedRealRange.max" tofixed="1"/>м/с,
-      тогда как прибор измеряет
-      от <NumberOutput :value="getSpeedMin" tofixed="1"/>м/с
-      до <NumberOutput :value="getSpeedMax" tofixed="1"/>м/с
-    </Warning>
-    <Warning v-if="warningOverPressure">
-      Давление при испытаниях
-      (<NumberOutput :value="realPressure" tofixed="0"/>Па)
-      выше, чем выдерживает воздуховод/заслонка
-      (<NumberOutput :value="getMaxPressure" tofixed="0"/>Па)
-    </Warning>
     <hr>
     <!-- Частота вращения -->
     <Check v-model="speedChange">
@@ -43,59 +32,120 @@
         <NumberOutput :value="realN" tofixed="2"/> кВт
       </div>
     </div>
-    <Warning v-if="warningNoNominalPowerAndFreq">
-      На предыдущих шагах
-      не задана номинальная мощность и частота вращения в рабочей точке.
-    </Warning>
-    <Warning v-if="warningPowerOverEngine">
-      Мощность при испытаниях превышает ту, на которую
-      способен двигатель, применяемый при испытаниях.
-    </Warning>
-    <Warning v-if="warningOverClocking">
-      Испытания будут проводиться на частоте вращения выше,
-      чем номинальная для используемого двигателя.
-      Физически это возможно, но для этого
-      частотному преобразователю (ЧП) придётся подать напряжение
-      выше номинала. Изоляция двигателя может не выдержать это напряжение.
-      Кроме того, если это напряжение окажется выше сетевого, то большинство
-      ЧП не способны выдать напряжение выше сетевого.
-    </Warning>
     <hr>
-    <div v-if="!stepFilledIncorrectly">
+    <div>
       <h5>Итоги подбора параметров испытаний:</h5>
+      <DuctDwg v-if="!incorrectDiameter" :d="diameter"
+            class="d-xl-none m-2 p-2 border rounded"
+      />
       <ol>
         <li>
-          <div>Схема испытательного оборудования</div>
-          <DuctDwg :d="diameter" class="m-2 p-2 border rounded"/>
+          <component :is="warningOverPressure ? 'Warning' : 'div'">
+            Давление в испытательном воздуховоде будет примерно
+            <NumberOutput :value="realPressure" tofixed="0"/>Па.
+            Воздуховод выдерживает
+            <NumberOutput :value="getMaxPressure" tofixed="0"/>Па.
+          </component>
+          <div class="progress bg-secondary w-100">
+            <div class="progress-bar" :class="{'bg-danger':warningOverPressure}"
+                  :style="{width: `${Math.max(realPressure/getMaxPressure,0.1) * 100}%`}"
+            >Давление
+            </div>
+          </div>
         </li>
         <li>
-          Давление в испытательном воздуховоде будет примерно
-          <NumberOutput :value="realPressure" tofixed="0"/>Па.
-          Воздуховод выдерживает
-          <NumberOutput :value="getMaxPressure" tofixed="0"/>Па.
+          <component :is="warningOutsideSpeedRange ? 'Warning' : 'div'">
+            Скорость потока
+            от <NumberOutput :value="speedRealRange.min" tofixed="1"/>до
+            <NumberOutput :value="speedRealRange.max" tofixed="1"/>м/с.
+            Прибор позволяет
+            от <NumberOutput :value="getSpeedMin" tofixed="1"/>до
+            <NumberOutput :value="getSpeedMax" tofixed="1"/>м/с.
+          </component>
+          <div class="progress bg-secondary w-100">
+            <div class="progress-bar bg-secondary"
+                :style="{width: `${(
+                  (speedRealRange.min>getSpeedMin)
+                  ? (speedRealRange.min-getSpeedMin)/(getSpeedMax-getSpeedMin)
+                  : 0
+                  )*100}%`}">
+            </div>
+            <div class="progress-bar" :class="{'bg-danger':warningOutsideSpeedRange}"
+                :style="{width: `${Math.max(speedRealRange.max-speedRealRange.min,0.1)
+                /(getSpeedMax-getSpeedMin)*100}%`}">Скорость
+            </div>
+          </div>
         </li>
-        <li>
-          Измерения будут проводиться при скорости потока
-          от <NumberOutput :value="speedRealRange.min" tofixed="1"/>до
-          <NumberOutput :value="speedRealRange.max" tofixed="1"/>м/с.
-          Прибор позволяет
-          от <NumberOutput :value="getSpeedMin" tofixed="1"/>до
-          <NumberOutput :value="getSpeedMax" tofixed="1"/>м/с.
+        <li v-if="!warningNoNominalPowerAndFreq">
+          Испытания будут проводиться
+          <span v-if="getSpeedChange || getNeedNEngine">
+            на частоте вращения
+            <NumberOutput :value="realF" tofixed="0"/>мин<sup>-1</sup>.
+          </span>
+          <span v-else>
+            на номинальной частоте вращения, значение которой не важно.
+          </span>
+          <span v-if="getSpeedChange || getNeedNEngine">
+            При этом фактическая мощность составит
+            <NumberOutput :value="realN" tofixed="2"/>кВт.
+            Электрическая сеть выдаёт максимум
+            <NumberOutput :value="getMaxN" tofixed="2"/>кВт.
+          </span>
+          <Warning v-if="warningOverClocking">
+            Испытания будут проводиться на частоте вращения выше,
+            чем номинальная для используемого двигателя.
+            Физически это возможно, но для этого
+            частотному преобразователю (ЧП) придётся подать напряжение
+            выше номинала. Изоляция двигателя может не выдержать это напряжение.
+            Кроме того, если это напряжение окажется выше сетевого, то большинство
+            ЧП не способны выдать напряжение выше сетевого.
+          </Warning>
+          <Warning v-if="warningPowerOverNetwork">
+            Фактическая мощность при испытаниях выше,
+            чем способна выдать электрическая сеть.
+          </Warning>
         </li>
         <li>
           Будет использоваться
           {{getNeedNEngine ? 'нештатный' : 'штатный'}}
-          двигатель
+          двигатель,
+          <span v-if="getNeedNEngine || getSpeedChange">
+            с номинальной мощностью
+            <NumberOutput
+               :value="getNeedNEngine ? getNEngine: getNnom"
+               tofixed="2"
+            />кВт
+            и номинальной частотой вращения
+            <NumberOutput
+               :value="getNeedNEngine ? getFnomEngine : getNnom"
+              tofixed="0"
+            />мин<sup>-1</sup>.
+          </span>
+          <span v-else>
+            номинальная мощность и частота вращения которого не важны.
+          </span>
+          <span v-if="getNeedNEngine || getSpeedChange">
+            Этот двигатель на испытательной частоте
+            <NumberOutput
+               :value="realF"
+              tofixed="0"
+            />мин<sup>-1</sup>
+            способен выдать мощность не более
+            <NumberOutput
+               :value="getNEngine / getFnomEngine * realF"
+               tofixed="2"
+            />кВт.
+          </span>
+          <Warning v-if="warningPowerOverEngine">
+            Мощность при испытаниях превышает ту, на которую
+            способен двигатель, применяемый при испытаниях.
+          </Warning>
+          <Warning v-if="warningNoNominalPowerAndFreq">
+            На предыдущих шагах
+            не задана номинальная мощность и частота вращения в рабочей точке.
+          </Warning>
         </li>
       </ol>
-      <div class="d-flex flex-column">
-        <div class="progress w-100">Давление в воздуховоде
-        <div class="progress-bar" role="progressbar"
-              :style="{width: `${realPressure / getMaxPressure * 100}%`}"
-          >Давление в воздуховоде
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -132,16 +182,17 @@ export default {
       'getSpeedMin', 'getSpeedMax',
       'speedRealRange',
       'warningOutsideSpeedRange',
-      'getNeedNEngine',
-      'realN',
+      'getNeedNEngine', 'getNEngine', 'getFnomEngine',
+      'getMaxN', 'realN',
       'warningNoNominalPowerAndFreq',
+      'warningPowerOverNetwork',
       'warningPowerOverEngine',
       'warningOverClocking',
       'warningOverPressure',
       'realPressure', 'getMaxPressure',
     ]),
     ...mapGetters('testing/nominals', [
-      'getQnom',
+      'getQnom', 'getFnom', 'getNnom',
     ]),
     stepFilledIncorrectly() {
       return (
@@ -152,6 +203,7 @@ export default {
         || this.warningPowerOverEngine
         || this.warningNoNominalPowerAndFreq
         || this.warningOverPressure
+        || this.warningPowerOverNetwork
         // || this.warningOverClocking
       );
     },

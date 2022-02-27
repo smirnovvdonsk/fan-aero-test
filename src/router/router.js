@@ -7,6 +7,8 @@ import NominalOutletSize from '../views/NominalOutletSize.vue';
 import NominalMisc from '../views/NominalMisc.vue';
 import ModeConstants from '../views/ModeConstants.vue';
 import SelectMode from '../views/SelectMode.vue';
+import MeasurementTask from '../views/MeasurementTask.vue';
+import MeasurementFill from '../views/MeasurementFill.vue';
 
 export const stepRoutes = [
   {
@@ -48,6 +50,16 @@ export const stepRoutes = [
     path: '/select-mode',
     name: 'Подбор параметров испытаний',
     component: SelectMode,
+  },
+  {
+    path: '/measurement-task',
+    name: 'Задание на измерение',
+    component: MeasurementTask,
+  },
+  {
+    path: '/measurement-fill',
+    name: 'Заполнение измерений',
+    component: MeasurementFill,
   },
 ];
 

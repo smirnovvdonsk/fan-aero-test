@@ -25,8 +25,9 @@
         <router-view
           @stepFilledIncorrectly="OnStepFilledIncorrectly"
           class="mb-3"
-          @click="onChange"
-          @change="onChange"
+          @click="saveCookie"
+          @change="saveCookie"
+          @blur="saveCookie"
         />
       </div>
     </div>
@@ -90,9 +91,6 @@ export default {
     cookieName() { return 'fan-aero-test'; },
   },
   methods: {
-    onChange() {
-      this.saveCookie();
-    },
     OnStepFilledIncorrectly(value) {
       this.stepFilledIncorrectly = value;
     },
@@ -104,14 +102,14 @@ export default {
     goNextStep() {
       this.stepFilledIncorrectly = false;
       this.setNextStep();
+      this.saveCookie();
       this.goCurrentStep();
-      this.onChange();
     },
     goPreviousStep() {
       this.stepFilledIncorrectly = false;
       this.setPreviousStep();
+      this.saveCookie();
       this.goCurrentStep();
-      this.onChange();
     },
     saveCookie() {
       localStorage.setItem(this.cookieName, JSON.stringify(this.$store.state));
@@ -174,14 +172,6 @@ export default {
   @extend .mb-auto;
   background: white;
   scrollbar-color: $primary $dark;
-  @media print {
-    a:after {
-      content: " <" attr(href) ">";
-    }
-    @page {
-      margin: 2cm 1cm 1cm 1cm;
-    }
-  }
   @media screen {
     padding: 0.5em;
     overflow-y: auto;

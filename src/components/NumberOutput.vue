@@ -28,6 +28,10 @@ export default {
       type: [Number, String],
       default: 2,
     },
+    dashed: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     toString(value) {
@@ -36,7 +40,19 @@ export default {
   },
   computed: {
     correctedValue() {
-      return this.toString(this.value);
+      let result = '';
+      switch (this.value) {
+        case Infinity:
+          result = '∞';
+          break;
+        case NaN:
+          result = '-';
+          break;
+        default:
+          result = this.toString(this.value);
+      }
+      if (this.dashed) result = '-';
+      return result;
     },
   },
 };

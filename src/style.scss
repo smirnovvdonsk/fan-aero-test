@@ -1,6 +1,16 @@
 @import "./_variables.scss";
 @import "bootstrap/scss/bootstrap";
 
+@media print {
+  a:after {
+    content: " <" attr(href) ">";
+  }
+}
+
+@page {
+  margin: 2cm 1cm 1cm 1cm;
+}
+
 p {
   text-indent: 1.5rem;
   text-align: justify;

@@ -41,6 +41,7 @@ const MODE = {
 
     getDiameter: ({ diameter }) => diameter,
     incorrectDiameter: ({ diameter }) => diameter <= 0,
+    largeDuct: (state, { getDiameter }) => getDiameter > 300,
 
     getSpeedMin: ({ speedRange }) => speedRange.min,
     getSpeedMax: ({ speedRange }) => speedRange.max,
@@ -91,6 +92,9 @@ const MODE = {
 
     getMaxN: ({ maxN }) => maxN,
     incorrectMaxN: ({ maxN, speedChange }) => speedChange && maxN <= 0,
+    warningPowerOverNetwork: ({ speedChange, needNEngine }, { realN, getMaxN }) => (
+      (speedChange || needNEngine) && (realN > getMaxN)
+    ),
 
     getNEngine: ({ NEngine, needNEngine }, { Nnom }) => (needNEngine ? NEngine : Nnom),
     getNeedNEngine: ({ needNEngine }) => needNEngine,
@@ -123,6 +127,28 @@ const MODE = {
       (speedChange || needNEngine) && (torque > engineTorqueNom)
     ),
 
+    R: (state, getters, rootState, { R }) => R,
+    wantedStaticPressure: ({ diameter }, {
+      Qnom, R, realF, Fnom, getSpeedChange,
+    }) => {
+      const Q = Qnom * (getSpeedChange ? (realF / Fnom) : 1);
+      const numerator = (4 * 1e6 * Q) ** 2 * 101325;
+      const denominator = (3600 * Math.PI * diameter ** 2) ** 2 * 2 * R * 293.15;
+      return numerator / denominator;
+    },
+    wantedStaticPressures({ psi }, { wantedStaticPressure }) { // [[0, 0], [0, 0], [0, 0]]
+      const min = wantedStaticPressure * (1 - psi / 100) ** 2;
+      const mid = wantedStaticPressure;
+      const max = wantedStaticPressure * (1 + psi / 100) ** 2;
+      const range = max - min;
+      return [[min, min + range / 3], [mid - range / 6, mid + range / 6], [max - range / 3, max]];
+    },
+    wantedSpeeds(state, { speedRealRange }) {
+      const { min, max } = speedRealRange;
+      const mid = (max - min) / 2;
+      const range = max - min;
+      return [[min, min + range / 3], [mid - range / 6, mid + range / 6], [max - range / 3, max]];
+    },
   },
 };
 
