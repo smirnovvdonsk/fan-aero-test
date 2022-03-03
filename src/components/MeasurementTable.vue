@@ -34,7 +34,12 @@
             :invalid="value[`point${pointIndex}`][`incorrectdeltaP${pressureType}Items`][rowIndex]"
               v-model="value[`point${pointIndex}`][`deltaP${pressureType}Array`][rowIndex]"
               v-on:update:modelValue="onChange"
-              @blur="onChange"
+              @blur="onBlur"
+              @keydown="onKeyDown(pointIndex, pressureType, rowIndex, $event)"
+              @keyup="onKeyUp"
+              @keydown.down.prevent="moveUpDown(`${pointIndex}:${pressureType}`, rowIndex, 'down')"
+              @keydown.up.prevent="moveUpDown(`${pointIndex}:${pressureType}`, rowIndex, 'up')"
+              :ref="`${pointIndex}:${pressureType}`"
             />
           </td>
         </template>
@@ -48,6 +53,11 @@ import NumberOutput from './NumberOutput.vue';
 import NumberInput from './NumberInput.vue';
 
 export default {
+  data() {
+    return {
+      keysPressed: new Set(),
+    };
+  },
   props: {
     modelValue: Object,
     blank: {
@@ -71,8 +81,42 @@ export default {
     },
   },
   methods: {
+    onBlur() {
+      this.keysPressed.clear();
+      this.onChange();
+    },
     onChange() {
       this.$emit('update:modelValue', this.value);
+    },
+    onKeyDown(pointIndex, pressureType, rowIndex, event) {
+      this.keysPressed.add(event.code);
+      const KEYS_TO_FILL = ['ControlLeft', 'ShiftLeft', 'KeyF'];
+      if (
+        KEYS_TO_FILL.every((code) => this.keysPressed.has(code))
+      ) {
+        const newValue = this.value[`point${pointIndex}`][`deltaP${pressureType}Array`][rowIndex];
+        this.value[`point${pointIndex}`][`deltaP${pressureType}Array`].fill(newValue);
+        this.onChange();
+      }
+    },
+    onKeyUp(event) {
+      this.keysPressed.delete(event.code);
+    },
+    moveUpDown(colRef, rowIndex, action) {
+      const arr = this.$refs[colRef];
+      let newIndex;
+      if (action === 'up') {
+        newIndex = rowIndex - 1;
+      }
+      if (action === 'down') {
+        newIndex = rowIndex + 1;
+      }
+      const weCan = (newIndex + 1 <= arr.length && newIndex >= 0 && newIndex !== undefined);
+      if (weCan) {
+        const elem = arr[newIndex].$el;
+        elem.focus();
+        elem.select();
+      }
     },
   },
   components: { NumberOutput, NumberInput },
@@ -81,26 +125,12 @@ export default {
 
 <style scoped lang="scss">
 .printed-table {
-  border: 2px solid black;
-  width: 100%;
   text-align: center;
-  th {
-    font-weight: normal;
-    border: 2px solid black;
-  }
   td {
-    border: 1px solid black;
-    border-left: 2px solid black;
-    border-right: 2px solid black;
     input {
       // border: none;
       text-align: center;
     }
-  }
-}
-@media print {
-  .printed-table{
-    break-inside: avoid;
   }
 }
 </style>

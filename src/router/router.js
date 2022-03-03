@@ -9,6 +9,7 @@ import ModeConstants from '../views/ModeConstants.vue';
 import SelectMode from '../views/SelectMode.vue';
 import MeasurementTask from '../views/MeasurementTask.vue';
 import MeasurementFill from '../views/MeasurementFill.vue';
+import Protocol from '../views/Protocol.vue';
 
 export const stepRoutes = [
   {
@@ -60,6 +61,11 @@ export const stepRoutes = [
     path: '/measurement-fill',
     name: 'Заполнение измерений',
     component: MeasurementFill,
+  },
+  {
+    path: '/protocol',
+    name: 'Протокол испытания',
+    component: Protocol,
   },
 ];
 

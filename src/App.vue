@@ -120,7 +120,7 @@ export default {
         const obj = JSON.parse(json);
         this.LOAD(obj);
       } catch {
-        console.log('no cookie');
+        // console.log('no cookie');
       }
     },
     reset() {
@@ -148,7 +148,7 @@ export default {
           this.LOAD(obj);
           this.goCurrentStep();
         } catch {
-          console.log('incorrect file');
+          // console.log('incorrect file');
         }
       };
       reader.readAsText(file);

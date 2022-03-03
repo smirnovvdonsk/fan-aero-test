@@ -41,7 +41,7 @@ const TESTING = {
     Fcoeff: (state, {
       getSpeedChange, getNeedNEngine, realF, Fnom,
     }) => (
-      // Отношение частот: испытательная к номинальной
+      // Отношение частот: номинальная к испытательной
       (getSpeedChange || getNeedNEngine) ? (Fnom / realF) : 1
     ),
 
@@ -51,10 +51,6 @@ const TESTING = {
     getThermometer: ({ thermometer }) => thermometer,
     getThermometerKelvin: ({ thermometer }) => thermometer + 273.15, // t'A
     incorrectThermometer: ({ thermometer }) => thermometer <= -273.15,
-
-    ToutKelvin: (state, getters, rootState, rootGetters) => ( // t'вых
-      rootGetters.testing.nominals.getToutKelvin
-    ),
 
     getDeltaP: (state, getters) => (
       {
@@ -135,6 +131,66 @@ const TESTING = {
       getters['point2/meetsPsi'],
       getters['point3/meetsPsi'],
     ],
+    VoutArray: (state, getters) => [
+      getters['point1/Vout'],
+      getters['point2/Vout'],
+      getters['point3/Vout'],
+    ],
+    PdOutArray: (state, getters) => [
+      getters['point1/PdOut'],
+      getters['point2/PdOut'],
+      getters['point3/PdOut'],
+    ],
+    PtOutArray: (state, getters) => [
+      getters['point1/PtOut'],
+      getters['point2/PtOut'],
+      getters['point3/PtOut'],
+    ],
+    PvAcuteArray: (state, getters) => [
+      getters['point1/PvAcute'],
+      getters['point2/PvAcute'],
+      getters['point3/PvAcute'],
+    ],
+    densityOutArray: (state, getters) => [
+      getters['point1/densityOut'],
+      getters['point2/densityOut'],
+      getters['point3/densityOut'],
+    ],
+    PvArray: (state, getters) => [
+      getters['point1/Pv'],
+      getters['point2/Pv'],
+      getters['point3/Pv'],
+    ],
+    PdvArray: (state, getters) => [
+      getters['point1/Pdv'],
+      getters['point2/Pdv'],
+      getters['point3/Pdv'],
+    ],
+    PsvArray: (state, getters) => [
+      getters['point1/Psv'],
+      getters['point2/Psv'],
+      getters['point3/Psv'],
+    ],
+    chartCriteria: (state, getters, rootState, rootGetters) => ( // f ном
+      rootGetters['testing/criteria/chartCriteria']
+    ),
+    chartNominals: (state, getters, rootState, rootGetters) => ( // f ном
+      rootGetters['testing/nominals/chartNominals']
+    ),
+    chart(state, {
+      QArray, PvArray, PsvArray, chartCriteria, chartNominals,
+    }) {
+      const order = [...QArray]
+        .sort((a, b) => a - b)
+        .map((x) => QArray.findIndex((y) => y === x));
+      return {
+        Q: order.map((x) => QArray[x]),
+        Pv: order.map((x) => PvArray[x]),
+        Ps: order.map((x) => PsvArray[x]),
+        criteria: chartCriteria,
+        nominals: chartNominals,
+      };
+    },
   },
   modules: {
     nominals,

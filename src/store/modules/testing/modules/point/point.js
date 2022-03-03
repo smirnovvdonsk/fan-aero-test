@@ -74,10 +74,6 @@ const POINT = { // Один (из трёх) режим измерения (од�
       // t'A
       rootGetters['testing/getThermometerKelvin']
     ),
-    ToutKelvin: (state, getters, rootState, rootGetters) => (
-      // t'вых
-      rootGetters['testing/getToutKelvin']
-    ),
     Ps(state, { getDeltaPsi }) {
       const n = getDeltaPsi.length;
       const sum = getDeltaPsi.reduce((acc, num) => acc + Math.abs(num), 0);
@@ -111,6 +107,47 @@ const POINT = { // Один (из трёх) режим измерения (од�
     ),
     psi: (state, { Q, Qnom }) => (Math.abs(Q - Qnom) / Qnom) * 100,
     meetsPsi: (state, { psi, psiNom }) => psi < psiNom,
+
+    square: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/square']
+    ),
+    Vout: (state, { square, Q, Fcoeff }) => Q / Fcoeff / square / 3600,
+    PdOut: (state, { density, Vout }) => density * (Vout ** 2 / 2),
+    PtOut: (state, { PdOut }) => PdOut,
+    PvAcute: (state, { PtOut, Pt1 }) => PtOut - Pt1,
+    needPSnom: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/getNeedPSnom']
+    ),
+    P0nom: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/getP0nom']
+    ),
+    PSnom: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/getPSnom']
+    ),
+    ToutKelvin: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/getToutKelvin']
+    ),
+    TnomKelvin: (state, getters, rootState, rootGetters) => (
+      rootGetters['testing/nominals/getTnomKelvin']
+    ),
+    densityOut: (state, {
+      P0nom, PSnom, Ps, needPSnom, R, ToutKelvin, Fcoeff,
+    }) => (
+      needPSnom
+        ? (P0nom + Math.abs(PSnom)) / (R * ToutKelvin)
+        : (P0nom + Math.abs(Ps / (Fcoeff ** 2))) / (R * ToutKelvin)
+    ),
+    Pv: (state, {
+      PvAcute, densityOut, density, Fcoeff,
+    }) => (
+      PvAcute * (densityOut / density) * Fcoeff ** 2
+    ),
+    Pdv: (state, {
+      PdOut, densityOut, density, Fcoeff,
+    }) => (
+      PdOut * (densityOut / density) * Fcoeff ** 2
+    ),
+    Psv: (state, { Pv, Pdv }) => Pv - Pdv,
   },
   modules: {},
 };

@@ -108,6 +108,20 @@ const NOMINALS = {
     incorrectSizeOut: ({
       squareOut, sizeOutD, sizeOutH, sizeOutB,
     }) => (squareOut ? sizeOutH <= 0 || sizeOutB <= 0 : sizeOutD <= 0),
+    square: ({
+      squareOut, sizeOutD, sizeOutB, sizeOutH,
+    }) => (
+      squareOut ? 1e-6 * sizeOutB * sizeOutH : 0.25e-6 * Math.PI * (sizeOutD ** 2)
+    ),
+    chartNominals: ({
+      Qnom, PVnom, needPVnom, PSnom, needPSnom,
+    }) => (
+      {
+        Q: Qnom,
+        Pv: needPVnom ? PVnom : undefined,
+        Ps: needPSnom ? PSnom : undefined,
+      }
+    ),
   },
 };
 

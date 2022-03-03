@@ -50,7 +50,7 @@ const CRITERIA = {
     ),
     incorrectQPercent: ({ needQ, QPercent }) => (needQ && QPercent <= 0),
 
-    getNeedPV: ({ needPV }) => needPV,
+    getNeedPV: ({ needPV }, getters, rootState) => needPV && rootState.testing.nominals.needPVnom,
     getPVType: ({ PVType }) => PVType,
     getPVPercent: ({ PVPercent }) => PVPercent,
     needPVPercent: ({ needPV, PVType }) => (
@@ -58,13 +58,39 @@ const CRITERIA = {
     ),
     incorrectPVPercent: ({ needPV, PVPercent }) => (needPV && PVPercent <= 0),
 
-    getNeedPS: ({ needPS }) => needPS,
+    getNeedPS: ({ needPS }, getters, rootState) => needPS && rootState.testing.nominals.needPSnom,
     getPSType: ({ PSType }) => PSType,
     getPSPercent: ({ PSPercent }) => PSPercent,
     needPSPercent: ({ needPS, PSType }) => (
       needPS && (PSType === CRITERIA_TYPES.POSITIVE || PSType === CRITERIA_TYPES.SYMMETRIC)
     ),
     incorrectPSPercent: ({ needPS, PSPercent }) => (needPS && PSPercent <= 0),
+    chartCriteria({
+      needQ,
+      QType,
+      QPercent,
+      PVType,
+      PVPercent,
+      PSType,
+      PSPercent,
+    }, { getNeedPV, getNeedPS }, rootState) {
+      function getCriteria(need, type, nom, percent) {
+        let result;
+        if (need) {
+          if (type === CRITERIA_TYPES.AT_LEAST) result = [nom, Infinity];
+          if (type === CRITERIA_TYPES.POSITIVE) result = [nom, nom * (1 + percent / 100)];
+          if (type === CRITERIA_TYPES.SYMMETRIC) {
+            result = [nom * (1 - percent / 100), nom * (1 + percent / 100)];
+          }
+        }
+        return result;
+      }
+      return {
+        Q: getCriteria(needQ, QType, rootState.testing.nominals.Qnom, QPercent),
+        Pv: getCriteria(getNeedPV, PVType, rootState.testing.nominals.PVnom, PVPercent),
+        Ps: getCriteria(getNeedPS, PSType, rootState.testing.nominals.PSnom, PSPercent),
+      };
+    },
   },
 };
 

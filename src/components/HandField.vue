@@ -34,7 +34,9 @@ table {
   }
   .handfield-suffix {
     text-align: center;
-    font-size: 70%;
+    font-size: 60%;
+    padding: 0;
+    margin: 0;
     line-height: 105%;
   }
 }

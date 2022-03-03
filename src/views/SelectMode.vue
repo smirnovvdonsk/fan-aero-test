@@ -110,14 +110,15 @@
           {{getNeedNEngine ? 'нештатный' : 'штатный'}}
           двигатель,
           <span v-if="getNeedNEngine || getSpeedChange">
-            с номинальной мощностью
+            {{getNeedNEngine
+            ?'с номинальной мощностью':'рассчитанный на мощность в номинальной рабочей точке'}}
             <NumberOutput
                :value="getNeedNEngine ? getNEngine: getNnom"
                tofixed="2"
             />кВт
-            и номинальной частотой вращения
+            при номинальной частоте вращения
             <NumberOutput
-               :value="getNeedNEngine ? getFnomEngine : getNnom"
+               :value="getNeedNEngine ? getFnomEngine : getFnom"
               tofixed="0"
             />мин<sup>-1</sup>.
           </span>
@@ -130,7 +131,7 @@
                :value="realF"
               tofixed="0"
             />мин<sup>-1</sup>
-            способен выдать мощность не более
+            способен выдать мощность
             <NumberOutput
                :value="getNEngine / getFnomEngine * realF"
                tofixed="2"
