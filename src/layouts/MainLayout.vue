@@ -15,7 +15,9 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat round :icon="darkThemeButtonIcon" @click="darkThemeButtonOnClick">
+          <q-tooltip> {{ darkThemeButtonTooltip }} </q-tooltip>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -46,8 +48,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
+
+const darkThemeButtonIcon = computed<string>(() => ($q.dark.isActive ? 'light_mode' : 'dark_mode'));
+const darkThemeButtonTooltip = computed<string>(() => ($q.dark.isActive ? 'Светлая тема' : 'Тёмная тема'));
+
+function darkThemeButtonOnClick():void { $q.dark.toggle(); }
 
 const essentialLinks: EssentialLinkProps[] = [
   {
