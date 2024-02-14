@@ -16,4 +16,7 @@
     "vue"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }
