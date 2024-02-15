@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header :class="headerBgColorClass" elevated>
+    <q-header :class="headerColorClasses" elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
@@ -26,7 +26,7 @@
       <router-view />
     </q-page-container>
 
-    <q-footer :class="headerBgColorClass" elevated>
+    <q-footer :class="headerColorClasses" elevated>
       <q-toolbar>
         <q-toolbar-title>Footer</q-toolbar-title>
       </q-toolbar>
@@ -41,7 +41,10 @@ import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
 
-const headerBgColorClass = computed<string>(() => `bg-${$q.dark.isActive ? 'blue-grey-10' : 'blue-grey-8'}`);
+const headerColorClasses = computed<string>(() => `\
+  bg-${$q.dark.isActive ? 'blue-grey-10' : 'blue-grey-2'} \
+  text-${$q.dark.isActive ? 'white' : 'black'} \
+  `);
 
 const darkThemeButtonIcon = computed<string>(() => ($q.dark.isActive ? 'light_mode' : 'dark_mode'));
 const darkThemeButtonTooltip = computed<string>(() => ($q.dark.isActive ? 'Светлая тема' : 'Тёмная тема'));
