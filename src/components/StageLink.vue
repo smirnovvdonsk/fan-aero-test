@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable tag="a" :target="newTab ? '_blank' : undefined" :href="link">
+  <q-item clickable tag="a" :target="newTab ? '_blank' : undefined" :href="link" :disable="disabled">
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
@@ -17,6 +17,7 @@ export interface StageLinkProps {
   caption?: string;
   link?: string;
   icon?: string;
+  disabled?: boolean;
   newTab?: boolean
 }
 withDefaults(defineProps<StageLinkProps>(), {

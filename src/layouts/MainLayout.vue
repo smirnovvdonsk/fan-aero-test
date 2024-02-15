@@ -57,6 +57,7 @@ const stagesLinks: StageLinkProps[] = [
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev',
+    disabled: true,
   },
   {
     title: 'Github',
