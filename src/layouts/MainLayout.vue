@@ -4,9 +4,12 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title class="row items-center">
+          <q-icon name="img:/favicon.svg" class="q-mr-xs" />
+          <div>Fan Aero Test</div>
+        </q-toolbar-title>
 
-        <q-btn flat round :icon="darkThemeButtonIcon" @click="darkThemeButtonOnClick">
+        <q-btn flat dense round :icon="darkThemeButtonIcon" @click="darkThemeButtonOnClick">
           <q-tooltip> {{ darkThemeButtonTooltip }} </q-tooltip>
         </q-btn>
       </q-toolbar>
