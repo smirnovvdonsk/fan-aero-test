@@ -18,7 +18,7 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item-label header> Этапы испытания </q-item-label>
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <StageLink v-for="link in stagesLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import StageLink, { StageLinkProps } from 'components/StageLink.vue';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
@@ -40,7 +40,7 @@ const darkThemeButtonTooltip = computed<string>(() => ($q.dark.isActive ? 'Св�
 
 function darkThemeButtonOnClick(): void { $q.dark.toggle(); }
 
-const essentialLinks: EssentialLinkProps[] = [
+const stagesLinks: StageLinkProps[] = [
   {
     title: 'Docs',
     caption: 'quasar.dev',
