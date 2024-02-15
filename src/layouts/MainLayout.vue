@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header :class="headerBgColorClass" elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
@@ -25,6 +25,12 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer :class="headerBgColorClass" elevated>
+      <q-toolbar>
+        <q-toolbar-title>Footer</q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
@@ -34,6 +40,8 @@ import StageLink, { StageLinkProps } from 'components/StageLink.vue';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
+
+const headerBgColorClass = computed<string>(() => `bg-${$q.dark.isActive ? 'blue-grey-10' : 'blue-grey-8'}`);
 
 const darkThemeButtonIcon = computed<string>(() => ($q.dark.isActive ? 'light_mode' : 'dark_mode'));
 const darkThemeButtonTooltip = computed<string>(() => ($q.dark.isActive ? 'Светлая тема' : 'Тёмная тема'));
